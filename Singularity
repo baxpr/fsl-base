@@ -21,6 +21,8 @@ From: ubuntu:18.04
   cd .. && rm -r pkgtemp
 
   # FSL install, h/t https://github.com/MPIB/singularity-fsl
+#            libjpeg62-turbo :  libjpeg-turbo8
+#            libmng1         :  libmng-dev, libmng2
   apt-get -y install wget python-minimal libgomp1 ca-certificates \
           libglu1-mesa libgl1-mesa-glx libsm6 libice6 libxt6 \
           libjpeg-turbo8 libpng16-16 libxrender1 libxcursor1 \
@@ -28,12 +30,9 @@ From: ubuntu:18.04
           libgtk2.0-0 libpulse0 libasound2 libcaca0 libopenblas-base \
           bzip2 dc bc
   wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py
-#  python2 fslinstaller.py -d /usr/local/fsl -V ${fsl_version}
-#  echo '/usr/local/fsl/lib' > /etc/ld.so.conf.d/fsl.conf
-#  ldconfig
-
-# libjpeg62-turbo  libjpeg-turbo8
-# libmng1          libmng-dev, libmng2
+  python2 fslinstaller.py -d /usr/local/fsl -V ${fsl_version}
+  echo '/usr/local/fsl/lib' > /etc/ld.so.conf.d/fsl.conf
+  ldconfig
 
   # Headless X11 support
   apt-get install -y xvfb
@@ -52,9 +51,9 @@ From: ubuntu:18.04
 %environment
 
   # FSL
-#  export FSLDIR=/usr/local/fsl
-#  . ${FSLDIR}/etc/fslconf/fsl.sh
-#  export PATH=${FSLDIR}/bin:${PATH}
+  export FSLDIR=/usr/local/fsl
+ . ${FSLDIR}/etc/fslconf/fsl.sh
+  export PATH=${FSLDIR}/bin:${PATH}
 
 
 %runscript
