@@ -2,7 +2,8 @@ Bootstrap: docker
 From: ubuntu:18.04
 
 %files
-  src /opt
+  src/fslpython_install.sh /opt
+  #src/fsl /usr/local
   
 
 %post
@@ -43,7 +44,7 @@ From: ubuntu:18.04
   # Get and install main fsl package
   #     uncomment wget to download instead of using local copy
   cd /usr/local
-  #wget -P /opt/src https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
+  wget -P /opt/src https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
   tar zxf /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
   rm /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
   
@@ -56,7 +57,7 @@ From: ubuntu:18.04
   #cp -f /opt/src/fslpython_environment.yml /usr/local/fsl/etc/fslconf
   
   # Replace fsl install script for ncurses permissions issue
-  cp -f /opt/src/fslpython_install.sh /usr/local/fsl/etc/fslconf
+  cp -f /opt/fslpython_install.sh /usr/local/fsl/etc/fslconf
 
   # Run the FSL python installer
   ${FSLDIR}/etc/fslconf/fslpython_install.sh

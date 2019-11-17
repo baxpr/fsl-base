@@ -37,6 +37,7 @@ dropprivileges=0
 if [ ! -z "${SUDO_UID}" ]; then
     dropprivileges=1
 fi
+echo "Value of dropprivileges is ${dropprivileges}"
 
 function syntax {
     echo "fslpython_install.sh [-f <FSLDIR>] [-q]"
