@@ -97,3 +97,11 @@ From: ubuntu:18.04
 %runscript
   bash "$@"
 
+# Put this in yaml:
+#    xvfb_opts="-n $(($$ + 99)) -s '-screen 0 1600x1200x24 -ac +extension GLX'"
+#    singularity run ... {container} {xvfb_opts} pipeline.sh {rest_of_opts}
+#
+# Then runscript is
+#    xvfb_run "$@"
+#
+# How can we do this setup and have default xvfb opts?

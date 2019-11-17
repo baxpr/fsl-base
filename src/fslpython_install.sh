@@ -22,6 +22,10 @@
 set -o pipefail
 script_dir=$( cd $(dirname $0) ; pwd)
 
+# Miniconda version. 4.7.12 has a problem with ncurses/eterm install
+#miniconda_version=latest   # Original behavior
+miniconda_version=4.6.14    # Rollback
+
 # Set some defaults
 OPTIND=1
 fsl_dir=""
@@ -129,9 +133,9 @@ if [ "$platform" = "Linux" ]; then
         exit 2
     fi
 
-    miniconda_script="Miniconda3-latest-Linux-x86_64.sh"
+    miniconda_script="Miniconda3-${miniconda_version}-Linux-x86_64.sh"
 elif [ "$platform" = "Darwin" ]; then
-    miniconda_script="Miniconda3-latest-MacOSX-x86_64.sh"
+    miniconda_script="Miniconda3-${miniconda_version}-MacOSX-x86_64.sh"
 else
     echo "Unknown platform" >&2
     exit 2
