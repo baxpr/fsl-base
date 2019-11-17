@@ -1,7 +1,7 @@
 Bootstrap: docker
 From: ubuntu:18.04
 
-% files
+%files
   src /opt
   
 
@@ -41,25 +41,32 @@ From: ubuntu:18.04
           bzip2 dc bc
 
   # Get and install main fsl package
-  #     wget to download, or
-  #     cp to use a local version
+  #     uncomment wget to download instead of using local copy
   cd /usr/local
-  #wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
-  cp /opt/src/fsl-${fsl_version}-centos7_64.tar.gz .
-  tar zxf fsl-${fsl_version}-centos7_64.tar.gz
-  rm fsl-${fsl_version}-centos7_64.tar.gz
+  #wget -P /opt/src https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
+  tar zxf /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
+  rm /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
   
   # FSL setup
   export FSLDIR=/usr/local/fsl
   . ${FSLDIR}/etc/fslconf/fsl.sh
   export PATH=${FSLDIR}/bin:${PATH}
 
-  # Replace fsl yaml spec for ncurses permissions issue
-  cp -f /opt/src/fslpython_environment.yml /usr/local/fsl/etc/fslconf
+  # Replace fsl yaml spec for ncurses permissions issue (doesn't work)
+  #cp -f /opt/src/fslpython_environment.yml /usr/local/fsl/etc/fslconf
   
+  # Replace fsl install script for ncurses permissions issue
+  cp -f /opt/src/fslpython_install.sh /usr/local/fsl/etc/fslconf
+
   # Run the FSL python installer
   ${FSLDIR}/etc/fslconf/fslpython_install.sh
   
+  # Check the conda installer log
+  echo START CONDA LOG
+  cat /tmp/fslpython*/fslpython_miniconda_installer.log
+  echo FINISH CONDA LOG
+
+
   ## TWO THOUGHTS
   # 1. During fslpython_install.sh, install the python modules in some order that 
   #       avoids the ncurses overwrite issue:
