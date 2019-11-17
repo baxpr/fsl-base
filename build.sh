@@ -1,4 +1,4 @@
 #!/bin/bash
 
-sudo singularity build --sandbox sandbox Singularity.deb
+sudo singularity build --sandbox sandbox Singularity.direct
 
