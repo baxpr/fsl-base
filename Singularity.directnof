@@ -57,7 +57,7 @@ From: ubuntu:18.04
   #cp -f /opt/src/fslpython_environment.yml /usr/local/fsl/etc/fslconf
   
   # Replace fsl install script for ncurses permissions issue
-  cp -f /opt/fslpython_install_nof.sh /usr/local/fsl/etc/fslconf
+  cp -f /opt/fslpython_install_nof.sh /usr/local/fsl/etc/fslconf/fslpython_install.sh
 
   # Run the FSL python installer
   ${FSLDIR}/etc/fslconf/fslpython_install.sh
