@@ -23,8 +23,8 @@ set -o pipefail
 script_dir=$( cd $(dirname $0) ; pwd)
 
 # Miniconda version. 4.7.12 has a problem with ncurses/eterm install
-#miniconda_version=latest   # Original behavior
-miniconda_version=4.6.14    # Rollback
+miniconda_version=latest   # Original behavior
+#miniconda_version=4.6.14    # Rollback
 
 # Set some defaults
 OPTIND=1
@@ -180,7 +180,7 @@ if [ ${quiet} -ne 1 ]; then
     echo "By installing this python distribution you agree to the license terms in"
     echo "${miniconda_root_dir}/LICENSE.txt"
 fi
-/usr/bin/env bash ${miniconda_installer} -b -p "${miniconda_root_dir}" \
+/usr/bin/env bash ${miniconda_installer} -b -f -p "${miniconda_root_dir}" \
     2>> "${miniconda_install_log}" | \
     ${script_dir}/progress.sh 26 ${quiet} >> "${miniconda_install_log}"
 
