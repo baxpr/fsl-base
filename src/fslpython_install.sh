@@ -164,7 +164,7 @@ drop_sudo ${dl_cmd} ${dl_out} "${miniconda_installer}" ${dl_cmd_opts} \
 status=$?
 if [ ${status} -ne 0 ]; then
     echo "Failed to download Miniconda - see ${miniconda_install_log} for details" >&2
-	cat ${miniconda_install_log} >&2
+    cat "${miniconda_install_log}" >&2
     exit ${status}
 fi
 
@@ -182,6 +182,7 @@ fi
 
 if [ $? -ne 0 ]; then
     echo "Failed to install Miniconda - see ${miniconda_install_log} for details" >&2
+	cat ${miniconda_install_log} >&2
     exit 3
 fi
 rm "${miniconda_installer}"
@@ -207,6 +208,7 @@ FSLDIR=$fsl_dir "${miniconda_bin_dir}/conda" env create \
     ${script_dir}/progress.sh 133 ${quiet} 1>> "${miniconda_install_log}"
 if [ $? -ne 0 ]; then
     echo "Failed to create FSL Python environment - see ${miniconda_install_log} for details" >&2
+    cat "${miniconda_install_log}" >&2
     exit 4
 fi
 
