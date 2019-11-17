@@ -2,7 +2,7 @@ Bootstrap: docker
 From: ubuntu:18.04
 
 %files
-  src/fslpython_install.sh /opt
+  src/fslpython_install*.sh /opt
   #src/fsl /usr/local
   
 
