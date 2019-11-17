@@ -60,11 +60,7 @@ From: ubuntu:18.04
 
   # Run the FSL python installer
   ${FSLDIR}/etc/fslconf/fslpython_install.sh
-  
-  # Check the conda installer log
-  echo START CONDA LOG
-  cat /tmp/fslpython*/fslpython_miniconda_installer.log
-  echo FINISH CONDA LOG
+
 
 
   ## TWO THOUGHTS
