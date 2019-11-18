@@ -29,23 +29,31 @@ From: ubuntu:18.04
           libxinerama1 libfreetype6 libxft2 libxrandr2 libmng2 \
           libgtk2.0-0 libpulse0 libasound2 libcaca0 libopenblas-base \
           bzip2 dc bc
-  wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslinstaller.py
-  python2 fslinstaller.py -d /usr/local/fsl -V ${fsl_version}
+
+  # Get and install main fsl package
+  #     uncomment wget to download instead of using local copy
+  cd /usr/local
+  wget -P /opt/src https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
+  tar zxf /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
+  rm /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
   
-  cat /tmp/fslpython*/fslpython_miniconda_installer.log
-  
-#  echo '/usr/local/fsl/lib' > /etc/ld.so.conf.d/fsl.conf
-#  ldconfig
+  # FSL setup
+  export FSLDIR=/usr/local/fsl
+  . ${FSLDIR}/etc/fslconf/fsl.sh
+  export PATH=${FSLDIR}/bin:${PATH}
+
+  # Run the FSL python installer
+  ${FSLDIR}/etc/fslconf/fslpython_install.sh
 
   # Headless X11 support
-#  apt-get install -y xvfb
+  apt-get install -y xvfb
   
   # PNG and PDF tools
-#  apt-get install -y ghostscript imagemagick
+  apt-get install -y ghostscript imagemagick
 
   # Python libraries for assessor code
-#  apt-get install -y python3-pip
-#  pip3 install nibabel pandas
+  apt-get install -y python3-pip
+  pip3 install nibabel pandas
   
   # Clean up
   apt-get clean && apt-get -y autoremove
