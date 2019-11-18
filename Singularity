@@ -20,9 +20,10 @@ From: ubuntu:18.04
   dpkg -i linux-libc-dev*.deb
   cd .. && rm -r pkgtemp
 
-  # FSL install, h/t https://github.com/MPIB/singularity-fsl
-#            libjpeg62-turbo :  libjpeg-turbo8
-#            libmng1         :  libmng-dev, libmng2
+  # FSL dependencies, h/t https://github.com/MPIB/singularity-fsl
+  #    debian vs ubuntu:
+  #            libjpeg62-turbo ->  libjpeg-turbo8
+  #            libmng1         ->  libmng2
   apt-get -y install wget python-minimal libgomp1 ca-certificates \
           libglu1-mesa libgl1-mesa-glx libsm6 libice6 libxt6 \
           libjpeg-turbo8 libpng16-16 libxrender1 libxcursor1 \
@@ -30,12 +31,11 @@ From: ubuntu:18.04
           libgtk2.0-0 libpulse0 libasound2 libcaca0 libopenblas-base \
           bzip2 dc bc
 
-  # Get and install main fsl package
-  #     uncomment wget to download instead of using local copy
+  # Get and install main FSL package
   cd /usr/local
-  wget -P /opt/src https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
-  tar zxf /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
-  rm /opt/src/fsl-${fsl_version}-centos7_64.tar.gz
+  wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${fsl_version}-centos7_64.tar.gz
+  tar zxf fsl-${fsl_version}-centos7_64.tar.gz
+  rm fsl-${fsl_version}-centos7_64.tar.gz
   
   # FSL setup
   export FSLDIR=/usr/local/fsl
@@ -52,7 +52,7 @@ From: ubuntu:18.04
   apt-get install -y ghostscript imagemagick
 
   # Python libraries for assessor code
-  apt-get install -y python3-pip
+  apt-get install -y python3 python3-pip
   pip3 install nibabel pandas
   
   # Clean up
