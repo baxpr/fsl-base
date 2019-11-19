@@ -50,6 +50,10 @@ From: ubuntu:18.04
   
   # PNG and PDF tools
   apt-get install -y ghostscript imagemagick
+  
+  # Fix imagemagick policy to allow PDF output. See https://usn.ubuntu.com/3785-1/
+  sed -i 's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' \
+    /etc/ImageMagick-6/policy.xml
 
   # Python libraries for assessor code
   apt-get install -y python3 python3-pip
