@@ -26,6 +26,7 @@ ENV FSLDIR="/opt/fsl" \
 
 # Main FSL download. See https://fsl.fmrib.ox.ac.uk/fsldownloads/manifest.csv
 # Run the docker build with --build-arg FSLVER=6.0.5.2 (e.g.) to set version
+ARG FSLVER
 RUN wget -nv -O /opt/fsl.tar.gz \
         "https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${FSLVER}-centos7_64.tar.gz" && \
     cd /opt && \
