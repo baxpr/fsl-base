@@ -43,9 +43,9 @@ RUN apt install -y    \
       imagemagick     \
       python3-pip
 
-# FSL guide's install (will get most recent version)
+# FSL guide's install
 RUN wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/releases/fslinstaller.py
-RUN python ./fslinstaller.py -d /usr/local/fsl/
+RUN python ./fslinstaller.py -V 6.0.7.18 -d /usr/local/fsl/
 
 # Python3 setup
 RUN pip3 install pandas fpdf numpy scipy pandas nibabel pybids nilearn
