@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fsl_version="6.0.5.2"
+fsl_version="6.0.7.18"
 docker_user="baxterprogers"
 docker_tag="${docker_user}/fsl-base:v${fsl_version}"
 

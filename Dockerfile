@@ -1,43 +1,54 @@
+# Following FSL Dockerfile guide https://fsl.fmrib.ox.ac.uk/fsl/docs/#/install/container
 FROM ubuntu:20.04
 
-# Initial system
-RUN apt-get -y update \
-    && \
-    DEBIAN_FRONTEND=noninteractive apt-get -y install \
-    sudo wget unzip zip xvfb ghostscript imagemagick \
-    bc dc file libfontconfig1 libfreetype6 libgl1-mesa-dev \
-    libgl1-mesa-dri libglu1-mesa-dev libgomp1 libice6 libxt6 \
-    libxcursor1 libxft2 libxinerama1 libxrandr2 libxrender1 \
-    libopenblas-base language-pack-en \
-    python3-pip \
-    && \
-    apt-get clean
+# FSL guide
+ENV FSLDIR          "/usr/local/fsl"
+ENV DEBIAN_FRONTEND "noninteractive"
+ENV LANG            "en_GB.UTF-8"
 
-# FSL environment vars first
-ENV FSLDIR="/opt/fsl" \
-    PATH="/opt/fsl/bin:$PATH" \
+# Local edits to set up FSL by default without running setup script
+ENV PATH="/usr/local/fsl/bin:$PATH" \
     FSLOUTPUTTYPE="NIFTI_GZ" \
     FSLMULTIFILEQUIT="TRUE" \
-    FSLTCLSH="/opt/fsl/bin/fsltclsh" \
-    FSLWISH="/opt/fsl/bin/fslwish" \
+    FSLTCLSH="/usr/local/fsl/bin/fsltclsh" \
+    FSLWISH="/usr/local/fsl/bin/fslwish" \
     FSLLOCKDIR="" \
     FSLMACHINELIST="" \
     FSLREMOTECALL=""
+    
+# FSL guide
+RUN apt update  -y && \
+    apt upgrade -y && \
+    apt install -y    \
+      python          \
+      wget            \
+      file            \
+      dc              \
+      mesa-utils      \
+      pulseaudio      \
+      libquadmath0    \
+      libgtk2.0-0     \
+      firefox         \
+      libgomp1     && \
+    apt install -y    \
+      xvfb            \
+      ghostscript     \
+      imagemagick     \
+      python3-pip
 
-# Main FSL download. See https://fsl.fmrib.ox.ac.uk/fsldownloads/manifest.csv
-# Run the docker build with --build-arg FSLVER=6.0.5.2 (e.g.) to set version
-ARG FSLVER
-RUN wget -nv -O /opt/fsl.tar.gz \
-        "https://fsl.fmrib.ox.ac.uk/fsldownloads/fsl-${FSLVER}-centos7_64.tar.gz" && \
-    cd /opt && \
-    tar -zxf fsl.tar.gz && \
-    rm /opt/fsl.tar.gz
+# Additional local edits
+RUN apt install -y    \
+      xvfb            \
+      ghostscript     \
+      imagemagick     \
+      python3-pip
 
-# FSL python installer
-RUN ${FSLDIR}/etc/fslconf/fslpython_install.sh
+# FSL guide's install (will get most recent version)
+RUN wget https://fsl.fmrib.ox.ac.uk/fsldownloads/fslconda/releases/fslinstaller.py
+RUN python ./fslinstaller.py -d /usr/local/fsl/
 
 # Python3 setup
-RUN pip3 install pandas fpdf
+RUN pip3 install pandas fpdf numpy scipy pandas nibabel pybids nilearn
 
 # ImageMagick policy update to allow PDF creation
 COPY ImageMagick-policy.xml /etc/ImageMagick-6/policy.xml
@@ -51,3 +62,4 @@ COPY README.md /opt/README.md
 
 # Entrypoint
 ENTRYPOINT ["xwrapper.sh"]
+
