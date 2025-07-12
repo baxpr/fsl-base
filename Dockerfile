@@ -14,7 +14,8 @@ ENV PATH="/usr/local/fsl/bin:$PATH" \
     FSLWISH="/usr/local/fsl/bin/fslwish" \
     FSLLOCKDIR="" \
     FSLMACHINELIST="" \
-    FSLREMOTECALL=""
+    FSLREMOTECALL="" \
+    USER="dockeruser"
     
 # FSL guide
 RUN apt update  -y && \
@@ -29,12 +30,7 @@ RUN apt update  -y && \
       libquadmath0    \
       libgtk2.0-0     \
       firefox         \
-      libgomp1     && \
-    apt install -y    \
-      xvfb            \
-      ghostscript     \
-      imagemagick     \
-      python3-pip
+      libgomp1
 
 # Additional local edits
 RUN apt install -y    \
